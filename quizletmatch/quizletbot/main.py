@@ -1,8 +1,9 @@
 import codecs
 import time
-from PIL import Image
-import pyocr
+
 import pyautogui
+import pyocr
+from PIL import Image
 
 lang = 'eng'
 
@@ -81,7 +82,7 @@ def main():
     # all of this is mostly for testing
     line_box_tuples = '\n'.join([f"{line_box.content}, {line_box.position}" for line_box in line_boxes])
 
-    with codecs.open("toto.txt", 'w', encoding='utf-8') as file_descriptor:
+    with codecs.open("output.txt", 'w', encoding='utf-8') as file_descriptor:
         text_builder.write_file(file_descriptor, line_box_tuples)
 
     print("done")
