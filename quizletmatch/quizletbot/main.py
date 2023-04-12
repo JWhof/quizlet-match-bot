@@ -2,6 +2,7 @@ import pyautogui as pag
 import time
 import pytesseract
 from PIL import Image
+import re
 
 NUM_SECONDS_TO_WAIT = 3 # set number of seconds to wait to enter quizlet match window
 MAX_CARD_WIDTH_PX = 250 # number of pixels that the box can be
@@ -28,10 +29,30 @@ def screenshot_and_convert_all_cards():
         image_of_box_screenshot = Image.open(file_name)
         dict_of_coords_and_text[box] = pytesseract.image_to_string(image_of_box_screenshot).replace("\n", " ")
 
+def match_text(file_name):
+    with open(file_name, 'r') as file:
+        text = file.read()
+
+    regex = r'^\d+\.\s.*$' # match only lines starting with an integer followed by a dot
+    matches = re.findall(regex, text, flags=re.MULTILINE)
+
+    word_dict = {}
+    for match in matches:
+        match = re.sub(r'^\d+\.\s', '', match) # chuck everything into one nice dict where we can check for values later
+        parts = match.strip().split(':')
+        if len(parts) == 2:
+            key = parts[0].strip()
+            value = parts[1].strip()
+            word_dict[key] = value
+
+    return word_dict
+
+
 def write_output(output_file_path, text_to_write):
     file = open(output_file_path, 'w')
     file.writelines(text_to_write)
 
+    
 def main():
     start_up()
 
@@ -42,10 +63,9 @@ def main():
 
     screenshot_and_convert_all_cards()
 
-
     write_output('quizletmatch/quizletbot/card_coords.txt', [f"{box}, {dict_of_coords_and_text[box]}\n" for box in dict_of_coords_and_text.keys()])
     print(f"total time: {time.time() - start_time}")
 
 
 if __name__ == "__main__":
-    main()
+    print(match_text('quizletmatch\input.txt'))
