@@ -1,2 +1,2 @@
-# quizletbot
-attempt to use pyocr and pyautogui and other libs to solve quizlet match
+# quizlet-match-bot, auto quizlet match solver
+uses libs like pytesseract, re, pyautogui, difflib
