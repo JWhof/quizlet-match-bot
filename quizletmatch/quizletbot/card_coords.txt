@@ -1,12 +1,12 @@
-Box(left=1940, top=202, width=9, height=9)
-Box(left=2184, top=433, width=9, height=9)
-Box(left=1861, top=548, width=9, height=9)
-Box(left=2625, top=669, width=9, height=9)
-Box(left=2655, top=794, width=9, height=9)
-Box(left=307, top=902, width=9, height=9)
-Box(left=1883, top=977, width=9, height=9)
-Box(left=2807, top=1039, width=9, height=9)
-Box(left=668, top=1132, width=9, height=9)
-Box(left=350, top=1246, width=9, height=9)
-Box(left=2873, top=1257, width=9, height=9)
-Box(left=1351, top=1313, width=9, height=9)
+Box(left=3015, top=238, width=9, height=9), hoodwink 
+Box(left=2574, top=340, width=9, height=9), greed; desire for wealth 
+Box(left=737, top=480, width=9, height=9), scruple 
+Box(left=1770, top=527, width=9, height=9), to mislead by a trick, deceive 
+Box(left=1169, top=552, width=9, height=9), avarice 
+Box(left=783, top=620, width=9, height=9), courage; endurance 
+Box(left=2275, top=764, width=9, height=9), sensible; showing good judgement 
+Box(left=1689, top=816, width=9, height=9), an ethical or moral principle that inhibits action 
+Box(left=877, top=932, width=9, height=9), full of or loaded with;  accompanied by 
+Box(left=2029, top=1047, width=9, height=9), fraught 
+Box(left=1037, top=1077, width=9, height=9), judicious 
+Box(left=297, top=1212, width=9, height=9), mettle 
