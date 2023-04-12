@@ -8,7 +8,7 @@ to use this:
 3. click "print"
 4. choose "glossary" as your layout
 5. cmd/ctrl a, copy, then paste into input.txt
-6. run
+6. run main.py
 
 # stuff to note
 -READ THE COMMENTS FOR THE VARS YOU CAN CHANGE
