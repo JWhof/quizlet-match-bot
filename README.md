@@ -1,8 +1,8 @@
 # quizlet-match-bot, auto quizlet match solver
 uses libs like pytesseract, re, pyautogui, difflib
 
-best time i got with this was 5.9, see if you can optimize it to get it lower
-does not work great with images
+best time i got with this was 5.9, see if you can optimize it to get it lower\n
+-does not work great with images
 
 # Usage
 to use this: 
