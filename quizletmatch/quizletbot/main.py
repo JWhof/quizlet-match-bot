@@ -6,12 +6,14 @@ import re
 from difflib import SequenceMatcher
 
 NUM_SECONDS_TO_WAIT = 3 # set number of seconds to wait to enter quizlet match window
-CARD_WIDTH_PX = 250 # number of pixels wide that the box can be, modify depending on terms (if you have alot of long terms, make this longer) MAXES OUT AT 250
-SCREENSHOT_HEIGHT_PX = 96 # how tall the screenshot will be, modify depending on terms (if you have alot of long terms, make this longer)
+CARD_WIDTH_PX = 270 # number of pixels wide that the box can be, modify depending on terms (if you have alot of long terms, make this longer) MAXES OUT AT 250
+SCREENSHOT_HEIGHT_PX = 68 # how tall the screenshot will be, modify depending on terms (if you have alot of long terms, make this longer)
 CARD_FONT_SIZE_PX = 16 # font size of text in card in px
 TIME_TO_DRAG_CARDS = 0.01 # time the program will take to drag cards to one another, dont change
-PERCENT_MATCH = 95 # percentage required to match, dont go below like 85 ish otherwise errors
-MAX_TIME_SPENT = 10  # specify the max amt of time spent in the quizlet match window
+PERCENT_MATCH = 85 # percentage required to match, dont go below like 85 ish otherwise errors
+MAX_TIME_SPENT = 15  # specify the max amt of time spent in the quizlet match window
+CONFIDENCE = 0.9 # confidence that top_card3 matches with box, added because quizlet patched original program
+SCREENSHOT_REGION = (213, 141, 3178, 1197) # set this to the scatterboard region (region=left, top, width, height)
 
 def start_up(): # wait desired number of seconds and display countdown
     for seconds_left in range(NUM_SECONDS_TO_WAIT)[::-1]:
@@ -21,17 +23,18 @@ def start_up(): # wait desired number of seconds and display countdown
     time.sleep(1)
 
 def card_coordinates(): # get coords of all cards based on image of top left of card
-    return pag.locateAll('quizletmatch/quizletbot/top_card3.png', pag.screenshot(), grayscale=True) # coordinates should be shifted right by 2 and down by 1 
+    return pag.locateAll('quizletmatch/quizletbot/box_template.png', pag.screenshot(), grayscale=False, confidence=CONFIDENCE) # coordinates should be shifted right by 2 and down by 1 
 
 def screenshot_region(left, top, file_name): # screenshot a specific region of the file
     return pag.screenshot(file_name, region=(left + 2, top + 1, CARD_WIDTH_PX, SCREENSHOT_HEIGHT_PX)) # region=left, top, width, height
 
 def screenshot_and_convert_all_cards(): # place all cards into tuple with coordinates and text from ocr
-    for count, box in enumerate(list(card_coordinates())):
+    card_coord_list = [box for box in list(card_coordinates()) if box != list(card_coordinates())[0]] # TEMPORARY SOLUTION PLEASE FIX
+    for count, box in enumerate(card_coord_list):
         file_name = f"box_screenshot{count}.png"
         screenshot_region(box.left, box.top, file_name)
         image_of_box_screenshot = Image.open(file_name)
-        list_of_coords_and_text_tuples.append((box, pytesseract.image_to_string(image_of_box_screenshot).strip().replace("\n", " ").strip()))
+        list_of_coords_and_text_tuples.append((box, pytesseract.image_to_string(image_of_box_screenshot, config="--psm 6 --oem 1").strip().replace("\n", " ").strip()))
 
 def organize_input(file_name): # make the input file into a dict
     with open(file_name, 'r') as file:
@@ -64,6 +67,7 @@ def drag_matched_boxes(): # match all of the boxes together using the values fro
                         list_of_coords_and_text_tuples.remove(box1)
                         list_of_coords_and_text_tuples.remove(box2)
                         time.sleep(0.01)
+        print(list_of_coords_and_text_tuples)
 
 def start_new_match(): # start a new quizlet match session, useful if your set is a bit wack then you can just leave the program running for a while to get best score possible
     pag.moveTo(58,166) # change this to the coordinates of the back button in the match page on your machine
@@ -103,7 +107,7 @@ def main():
 
     drag_time = time.time()
     drag_matched_boxes()
-    print(f"screenshot and convert time: {time.time() - drag_time}")
+    print(f"drag time: {time.time() - drag_time}")
 
     print(f"total time: {time.time() - start_time}")
 
@@ -113,5 +117,4 @@ if __name__ == "__main__":
         main()
         time.sleep(1)
         start_new_match()
-        
 
