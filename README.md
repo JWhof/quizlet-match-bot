@@ -4,6 +4,9 @@ uses libs like pytesseract, re, pyautogui, difflib
 best time i got with this was 5.9, see if you can optimize it to get it lower
 -does not work great with images
 
+# UPDATE: PATCHED
+Unfortunately it was patched as quizlet added a light gradient to the background and adding in confidence checks takes alot longer. i will look into a total overhaul when i have time.
+
 # Usage
 to use this: 
 1. go to the quizlet set home page (where you can see all of the terms listed out)
